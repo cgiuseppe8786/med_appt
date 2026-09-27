@@ -1,0 +1,521 @@
+.doctor-card-container {
+    width: 100%;
+    max-width: 360px;
+    min-height: 330px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    background: #ffffff;
+  
+    border: 1px solid #e5e9ee;
+    border-radius: 14px;
+  
+    overflow: hidden;
+  
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+  
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  
+  .doctor-card-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+  }
+  
+  .doctor-card-details-container {
+    padding: 28px 24px 20px;
+  }
+  
+  .doctor-card-profile-image-container {
+    width: 82px;
+    height: 82px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    margin: 0 auto 18px;
+  
+    border-radius: 50%;
+  
+    background: #eaf4ff;
+    color: #2190ff;
+  
+    font-size: 38px;
+  }
+  
+  .doctor-card-details {
+    text-align: center;
+  }
+  
+  .doctor-card-detail-name {
+    margin-bottom: 7px;
+  
+    color: #20252b;
+  
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .doctor-card-detail-speciality {
+    margin-bottom: 14px;
+  
+    color: #2190ff;
+  
+    font-size: 15px;
+    font-weight: 600;
+  }
+  
+  .doctor-card-detail-experience {
+    margin-bottom: 8px;
+  
+    color: #6d7682;
+  
+    font-size: 14px;
+  }
+  
+  .doctor-card-detail-consultationfees {
+    color: #4d5661;
+  
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .doctor-card-detail-consultationfees .fa-star {
+    color: #f5b301;
+  }
+  
+  /* AREA AZIONI */
+  
+  .doctor-card-options-container {
+    padding: 0 22px 22px;
+  }
+  
+  .book-appointment-btn {
+    width: 100%;
+  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    padding: 12px 18px;
+  
+    background: #2190ff;
+    color: #ffffff;
+  
+    border: none;
+    border-radius: 8px;
+  
+    font-size: 15px;
+    font-weight: 600;
+  
+    cursor: pointer;
+  
+    transition: background-color 0.2s ease;
+  }
+  
+  .book-appointment-btn:hover {
+    background: #0878e5;
+  }
+  
+  .book-appointment-btn small {
+    margin-top: 3px;
+  
+    font-size: 11px;
+    font-weight: 400;
+  
+    opacity: 0.9;
+  }
+  
+  /* PRENOTAZIONE CONFERMATA */
+  
+  .appointment-confirmed {
+    padding: 14px;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  
+    text-align: center;
+  
+    background: #f4fbf6;
+  
+    border: 1px solid #d7ebdc;
+    border-radius: 8px;
+  }
+  
+  .appointment-confirmed span {
+    color: #298542;
+    font-weight: 600;
+  }
+  
+  .appointment-confirmed strong {
+    color: #333;
+  }
+  
+  .cancel-appointment-btn {
+    margin-top: 7px;
+    padding: 9px 14px;
+  
+    background: #dc3545;
+    color: #ffffff;
+  
+    border: none;
+    border-radius: 6px;
+  
+    cursor: pointer;
+  }
+  
+  .cancel-appointment-btn:hover {
+    background: #bb2d3b;
+  }
+  
+  /* POPUP */
+  
+  .appointment-popup-content {
+  width: min(92vw, 480px) !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.appointment-modal {
+  position: relative;
+  padding: 30px;
+  background: #fff;
+  color: #222;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  width: 34px;
+  height: 34px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: transparent;
+  color: #666;
+
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #f2f2f2;
+}
+
+.appointment-doctor {
+  text-align: center;
+  padding: 5px 0 22px;
+}
+
+.appointment-doctor-icon {
+  width: 82px;
+  height: 82px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf4ff;
+  color: #2190ff;
+
+  font-size: 38px;
+}
+
+.appointment-doctor h2 {
+  margin: 0 0 5px;
+  color: #20252b;
+  font-size: 20px;
+}
+
+.appointment-speciality {
+  margin-bottom: 7px;
+  color: #555;
+  font-size: 14px;
+}
+
+.appointment-experience {
+  margin-bottom: 14px;
+  color: #777;
+  font-size: 13px;
+}
+
+.appointment-rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 13px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 3px;
+  color: #f5b301;
+}
+
+.appointment-form {
+  padding: 22px 0 0;
+  border-top: 1px solid #e1e5ea;
+}
+
+.appointment-form .form-group {
+  margin-bottom: 18px;
+}
+
+.appointment-form label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #222;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appointment-form input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid #d5dbe2;
+  border-radius: 6px;
+
+  background: #fff;
+  color: #222;
+
+  font-size: 15px;
+}
+
+.appointment-form input:focus {
+  outline: none;
+  border-color: #2190ff;
+  box-shadow: 0 0 0 3px rgba(33, 144, 255, 0.1);
+}
+
+.appointment-submit {
+  width: 100%;
+  margin-top: 5px;
+  padding: 12px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2190ff;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.appointment-submit:hover {
+  background: #0878e5;
+}
+
+/* DOPO LA PRENOTAZIONE */
+
+.appointment-booked {
+  padding-top: 2px;
+  text-align: center;
+}
+
+.appointment-booked h3 {
+  margin: 0 0 12px;
+
+  color: #20252b;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.appointment-booked-info {
+  margin-bottom: 20px;
+}
+
+.appointment-booked-info p {
+  margin: 5px 0;
+
+  color: #444;
+
+  font-size: 14px;
+}
+
+.cancel-appointment-btn {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2190ff;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.cancel-appointment-btn:hover {
+  background: #0878e5;
+}
+
+.appointment-error {
+  margin: -5px 0 15px;
+
+  color: #dc3545;
+
+  font-size: 13px;
+}
+  
+  /* FORM */
+  
+.appointment-doctor-icon {
+  width: 90px;
+  height: 90px;
+
+  margin: 0 auto 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #eaf4ff;
+  color: #2190ff;
+
+  overflow: hidden;
+  font-size: 38px;
+}
+
+.doctor-profile-picture {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 50%;
+}
+
+  .appointment-form {
+    width: 100%;
+  }
+  
+  .appointment-form .form-group {
+    margin-bottom: 18px;
+  }
+  
+  .appointment-form label {
+    display: block;
+  
+    margin-bottom: 7px;
+  
+    color: #333;
+  
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .appointment-form input {
+    width: 100%;
+    box-sizing: border-box;
+  
+    padding: 12px 14px;
+  
+    background: #ffffff;
+    color: #222;
+  
+    border: 1px solid #d5dbe2;
+    border-radius: 7px;
+  
+    font-size: 15px;
+    outline: none;
+  }
+  
+  .appointment-form input:focus {
+    border-color: #2190ff;
+  
+    box-shadow: 0 0 0 3px rgba(33, 144, 255, 0.1);
+  }
+  
+  .appointment-submit {
+    width: 100%;
+  
+    padding: 12px 18px;
+  
+    background: #2190ff;
+    color: #ffffff;
+  
+    border: none;
+    border-radius: 7px;
+  
+    font-size: 15px;
+    font-weight: 600;
+  
+    cursor: pointer;
+  }
+  
+  .appointment-submit:hover {
+    background: #0878e5;
+  }
+  
+  .appointment-error {
+    margin: 0 0 15px;
+  
+    color: #dc3545;
+  
+    font-size: 13px;
+  }
+
+  .modal-doctor-experience {
+  margin: 5px 0 !important;
+  color: #6d7682 !important;
+  font-size: 14px;
+}
+
+.modal-doctor-rating {
+  margin-top: 7px;
+  color: #444;
+  font-size: 14px;
+}
+
+.rating-stars {
+  color: #f5b301;
+  letter-spacing: 2px;
+  font-size: 16px;
+}
+  
+  @media (max-width: 600px) {
+    .doctor-card-container {
+      max-width: 100%;
+    }
+  
+    .appointment-modal {
+      padding: 24px 20px;
+    }
+  }

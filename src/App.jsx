@@ -11,7 +11,6 @@ import Login from "./Components/Login/Login";
 import SignUp from "./Components/Sign_Up/Sign_Up";
 import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
 
-
 // Componente funzione per l'app principale
 function App() {
 

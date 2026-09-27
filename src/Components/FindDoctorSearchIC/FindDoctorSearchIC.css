@@ -1,0 +1,153 @@
+.finddoctor {
+    width: 100%;
+    max-width: 700px;
+    margin: 30px auto 0;
+    overflow: visible;
+  }
+  
+  .doctor-search-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 18px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .search-doctor-input-box {
+    width: 100%;
+    height: 56px;
+    padding: 0 20px 0 50px;
+  
+    border: 1px solid #d9dfe7;
+    border-radius: 10px;
+  
+    background: #ffffff;
+    color: #222;
+  
+    font-size: 16px;
+    outline: none;
+  
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  
+  .search-doctor-input-box:focus {
+    border-color: #2190ff;
+    box-shadow: 0 0 0 3px rgba(33, 144, 255, 0.12);
+  }
+  
+  .search-doctor-input-box::placeholder {
+    color: #8a94a3;
+  }
+  
+  .search-doctor-input-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+  
+    width: 100%;
+    max-height: 360px;
+    overflow-y: auto;
+  
+    background: #ffffff;
+    border: 1px solid #e2e6eb;
+    border-radius: 10px;
+  
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  
+    z-index: 100;
+  }
+  
+  .search-doctor-result-item {
+    width: 100%;
+    min-height: 64px;
+  
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  
+    padding: 10px 16px;
+  
+    background: #ffffff;
+    border: none;
+    border-bottom: 1px solid #edf0f3;
+  
+    color: #333;
+    text-align: left;
+  
+    cursor: pointer;
+  
+    transition: background-color 0.2s ease;
+  }
+  
+  .search-doctor-result-item:last-child {
+    border-bottom: none;
+  }
+  
+  .search-doctor-result-item:hover {
+    background-color: #f4f9ff;
+  }
+  
+  .speciality-icon {
+    width: 38px;
+    height: 38px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    flex-shrink: 0;
+  
+    border-radius: 50%;
+  
+    background: #eaf4ff;
+    color: #2190ff;
+  }
+  
+  .speciality-name {
+    flex: 1;
+  
+    font-size: 15px;
+    font-weight: 600;
+    color: #252b33;
+  }
+  
+  .speciality-type {
+    font-size: 11px;
+    color: #8a94a3;
+    letter-spacing: 0.5px;
+  }
+  
+  .no-speciality {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+  }
+  
+  @media (max-width: 600px) {
+    .finddoctor {
+      margin-top: 20px;
+    }
+  
+    .search-doctor-input-box {
+      height: 52px;
+      font-size: 14px;
+    }
+  
+    .speciality-type {
+      display: none;
+    }
+  }
