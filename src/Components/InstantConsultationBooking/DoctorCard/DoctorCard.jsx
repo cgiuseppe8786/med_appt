@@ -3,7 +3,7 @@ import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./DoctorCard.css";
 
-import AppointmentFormIC from "../AppointmentForm/AppointmentFormIC";
+import AppointmentForm from "../AppointmentForm/AppointmentForm";
 import { v4 as uuidv4 } from "uuid";
 
 const DoctorCardIC = ({
@@ -126,36 +126,32 @@ const DoctorCardIC = ({
                         </div>
                         {/* FORM / APPUNTAMENTO PRENOTATO */}
                         {!appointment ? (
-                            <AppointmentFormIC
+                            <AppointmentForm
                                 doctorName={name}
                                 doctorSpeciality={speciality}
                                 onSubmit={handleFormSubmit}
                             />
                         ) : (
-                            <div className="appointment-booked">
+                            <div className="appointment-booked-info">
+                                <p>
+                                    <strong>Name:</strong>{" "}
+                                    {appointment.name}
+                                </p>
 
-                                <h3>Appointment Booked!</h3>
+                                <p>
+                                    <strong>Phone Number:</strong>{" "}
+                                    {appointment.phoneNumber}
+                                </p>
 
-                                <div className="appointment-booked-info">
-                                    <p>
-                                        <strong>Name:</strong>{" "}
-                                        {appointment.name}
-                                    </p>
+                                <p>
+                                    <strong>Appointment Date:</strong>{" "}
+                                    {appointment.appointmentDate}
+                                </p>
 
-                                    <p>
-                                        <strong>Phone Number:</strong>{" "}
-                                        {appointment.phoneNumber}
-                                    </p>
-                                </div>
-
-                                <button
-                                    type="button"
-                                    className="cancel-appointment-btn"
-                                    onClick={handleCancel}
-                                >
-                                    Cancel Appointment
-                                </button>
-
+                                <p>
+                                    <strong>Time Slot:</strong>{" "}
+                                    {appointment.timeSlot}
+                                </p>
                             </div>
                         )}
 
