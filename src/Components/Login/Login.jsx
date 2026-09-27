@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import "./Sign_Up.css";
+import "./Login.css";
 
-function SignUp() {
+function Login() {
   const [formStatus, setFormStatus] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Pagina dimostrativa: da collegare al servizio di registrazione.
-    setFormStatus("Demo only: registration is not connected yet.");
+    // Da collegare al servizio di autenticazione.
+    setFormStatus("Demo only: login is not connected yet.");
   };
 
   const handleReset = () => {
@@ -17,42 +17,18 @@ function SignUp() {
 
   return (
     <main className="container">
-      <h1>Sign Up</h1>
+      <h1>Login</h1>
 
-      <p className="signup-description">
-        Already a member?{" "}
-        <a href="../Login/Login.html">Login</a>
+      <p className="login-description">
+        Are you a new member?{" "}
+        <a href="../Sign_Up/Sign_Up.html">Sign Up Here</a>
       </p>
 
-      <form onSubmit={handleSubmit} onReset={handleReset}>
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="form-control"
-            placeholder="Enter your name"
-            autoComplete="name"
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-
-          <input
-            type="tel"
-            name="phone"
-            id="phone"
-            className="form-control"
-            placeholder="Enter your phone number"
-            autoComplete="tel"
-            required
-          />
-        </div>
-
+      <form
+        id="login-form"
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+      >
         <div className="form-group">
           <label htmlFor="email">Email</label>
 
@@ -62,7 +38,7 @@ function SignUp() {
             id="email"
             className="form-control"
             placeholder="Enter your email"
-            autoComplete="email"
+            autoComplete="username"
             required
           />
         </div>
@@ -76,20 +52,22 @@ function SignUp() {
             id="password"
             className="form-control"
             placeholder="Enter your password"
-            autoComplete="new-password"
+            autoComplete="current-password"
             required
           />
         </div>
 
         <div className="btn-group">
           <button type="submit" className="btn btn-primary">
-            Submit
+            Login
           </button>
 
           <button type="reset" className="btn btn-danger">
             Reset
           </button>
         </div>
+
+        <p className="forgot-password">Forgot Password?</p>
 
         <p
           id="form-status"
@@ -103,4 +81,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Login;
