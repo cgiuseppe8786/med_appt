@@ -76,7 +76,6 @@ const AppointmentForm = ({ onSubmit }) => {
         <label htmlFor="appointment-name">
           Name:
         </label>
-
         <input
           type="text"
           id="appointment-name"
@@ -91,7 +90,6 @@ const AppointmentForm = ({ onSubmit }) => {
         <label htmlFor="appointment-phone">
           Phone Number:
         </label>
-
         <input
           type="tel"
           id="appointment-phone"
@@ -107,7 +105,6 @@ const AppointmentForm = ({ onSubmit }) => {
         <label htmlFor="appointment-date">
           Appointment Date:
         </label>
-
         <input
           type="date"
           id="appointment-date"
@@ -125,7 +122,6 @@ const AppointmentForm = ({ onSubmit }) => {
         <label htmlFor="appointment-time">
           Time Slot:
         </label>
-
         <select
           id="appointment-time"
           value={timeSlot}
@@ -137,7 +133,6 @@ const AppointmentForm = ({ onSubmit }) => {
           <option value="">
             Select a time slot
           </option>
-
           <option value="09:00">09:00 AM</option>
           <option value="10:00">10:00 AM</option>
           <option value="11:00">11:00 AM</option>
