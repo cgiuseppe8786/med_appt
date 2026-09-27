@@ -80,7 +80,7 @@ function Login() {
 
   return (
     <main className="container">
-      <h1>Login</h1>
+      <h1 className="login-title">Login</h1>
 
       <p className="login-description">
         Are you a new member?{" "}

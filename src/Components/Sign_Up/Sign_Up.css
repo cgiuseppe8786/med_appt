@@ -19,6 +19,10 @@ body {
     padding: 24px;
 }
 
+.signup-title {
+  color: black;
+}
+
 h1 {
     margin: 0 0 12px;
     text-align: center;

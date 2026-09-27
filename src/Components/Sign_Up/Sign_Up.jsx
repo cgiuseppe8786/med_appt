@@ -120,7 +120,7 @@ function SignUp() {
 
   return (
     <main className="container">
-      <h1>Sign Up</h1>
+    <h1 className="signup-title">Sign Up</h1>
 
       <p className="signup-description">
         Already a member?{" "}
