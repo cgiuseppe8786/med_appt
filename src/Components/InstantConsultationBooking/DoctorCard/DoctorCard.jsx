@@ -11,7 +11,6 @@ const DoctorCardIC = ({
     speciality,
     experience,
     ratings,
-    profilePic
 }) => {
     const [showModal, setShowModal] = useState(false);
     const [appointment, setAppointment] = useState(null);
@@ -29,28 +28,12 @@ const DoctorCardIC = ({
         setAppointment(null);
     };
 
-    const renderStars = () => {
-        const rating = Number(ratings);
-
-        if (!Number.isNaN(rating)) {
-            return Array.from(
-                { length: Math.min(5, Math.round(rating)) },
-                (_, index) => (
-                    <i
-                        key={index}
-                        className="fa fa-star"
-                        aria-hidden="true"
-                    />
-                )
-            );
-        }
-
-        return ratings;
-    };
-
     return (
         <div className="doctor-card-container">
+
+            {/* DETTAGLI DOTTORE */}
             <div className="doctor-card-details-container">
+
                 <div className="doctor-card-profile-image-container">
                     <i
                         className="fa fa-user-md"
@@ -59,6 +42,7 @@ const DoctorCardIC = ({
                 </div>
 
                 <div className="doctor-card-details">
+
                     <div className="doctor-card-detail-name">
                         {name}
                     </div>
@@ -71,12 +55,17 @@ const DoctorCardIC = ({
                         {experience} years experience
                     </div>
 
-                    <div className="doctor-card-detail-consultationfees">
-                        {renderStars()}
+                    <div className="doctor-card-detail-rating">
+                        <strong>Ratings:</strong>
+                        <span className="rating-stars">
+                            {ratings}
+                        </span>
                     </div>
+
                 </div>
             </div>
 
+            {/* PRENOTAZIONE */}
             <div className="doctor-card-options-container">
                 <button
                     type="button"
@@ -88,6 +77,7 @@ const DoctorCardIC = ({
                 </button>
             </div>
 
+            {/* POPUP APPUNTAMENTO */}
             <Popup
                 modal
                 open={showModal}
@@ -96,6 +86,7 @@ const DoctorCardIC = ({
             >
                 {(close) => (
                     <div className="appointment-modal">
+
                         <button
                             type="button"
                             className="modal-close"
@@ -105,22 +96,14 @@ const DoctorCardIC = ({
                             ×
                         </button>
 
+                        {/* DATI DOTTORE NEL POPUP */}
                         <div className="appointment-doctor">
+
                             <div className="appointment-doctor-icon">
-                                <div className="appointment-doctor-icon">
-                                    {profilePic ? (
-                                        <img
-                                            src={profilePic}
-                                            alt={`Dr. ${name}`}
-                                            className="doctor-profile-picture"
-                                        />
-                                    ) : (
-                                        <i
-                                            className="fa fa-user-md"
-                                            aria-hidden="true"
-                                        />
-                                    )}
-                                </div>
+                                <i
+                                    className="fa fa-user-md"
+                                    aria-hidden="true"
+                                />
                             </div>
 
                             <h2>{name}</h2>
@@ -135,13 +118,13 @@ const DoctorCardIC = ({
 
                             <div className="appointment-rating">
                                 <strong>Ratings:</strong>
-
                                 <span className="rating-stars">
-                                    {renderStars()}
+                                    {ratings}
                                 </span>
                             </div>
-                        </div>
 
+                        </div>
+                        {/* FORM / APPUNTAMENTO PRENOTATO */}
                         {!appointment ? (
                             <AppointmentFormIC
                                 doctorName={name}
@@ -150,6 +133,7 @@ const DoctorCardIC = ({
                             />
                         ) : (
                             <div className="appointment-booked">
+
                                 <h3>Appointment Booked!</h3>
 
                                 <div className="appointment-booked-info">
@@ -171,11 +155,14 @@ const DoctorCardIC = ({
                                 >
                                     Cancel Appointment
                                 </button>
+
                             </div>
                         )}
+
                     </div>
                 )}
             </Popup>
+
         </div>
     );
 };
