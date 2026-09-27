@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 import "./Sign_Up.css";
 
 function SignUp() {
@@ -12,60 +13,71 @@ function SignUp() {
 
   const [errors, setErrors] = useState({});
   const [formStatus, setFormStatus] = useState("");
+  const [showerr, setShowerr] = useState("");
 
-  // Gestisce la modifica dei campi
+  const navigate = useNavigate();
+
+  // Gestione modifica campi
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    // Per il telefono accettiamo solamente numeri
+    // Il telefono può contenere solamente numeri
     if (name === "phone" && !/^\d*$/.test(value)) {
       return;
     }
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
 
-    // Rimuove l'errore del campo quando l'utente lo modifica
-    setErrors({
-      ...errors,
+    setErrors((prev) => ({
+      ...prev,
       [name]: "",
-    });
+    }));
 
+    setShowerr("");
     setFormStatus("");
   };
 
-  // Valida tutti i campi
+  // Validazione frontend
   const validateForm = () => {
     const newErrors = {};
 
-    // Validazione nome
+    // NAME
     if (!formData.name.trim()) {
       newErrors.name = "Name is required.";
     } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must contain at least 2 characters.";
-    } else if (!/^[a-zA-ZÀ-ÿ\s'-]+$/.test(formData.name.trim())) {
-      newErrors.name = "Name can only contain letters.";
+      newErrors.name =
+        "Name must contain at least 2 characters.";
+    } else if (
+      !/^[a-zA-ZÀ-ÿ\s'-]+$/.test(formData.name.trim())
+    ) {
+      newErrors.name =
+        "Name can only contain letters.";
     }
 
-    // Validazione telefono
+    // PHONE
     if (!formData.phone) {
       newErrors.phone = "Phone number is required.";
     } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = "Phone number must contain exactly 10 digits.";
+      newErrors.phone =
+        "Phone number must contain exactly 10 digits.";
     }
 
-    // Validazione email
+    // EMAIL
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
     } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        formData.email.trim()
+      )
     ) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email =
+        "Please enter a valid email address.";
     }
 
-    // Validazione password
+    // PASSWORD
     if (!formData.password) {
       newErrors.password = "Password is required.";
     } else if (formData.password.length < 8) {
@@ -90,22 +102,92 @@ function SignUp() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Gestisce l'invio del form
-  const handleSubmit = (event) => {
+  // Registrazione utente
+  const register = async (event) => {
     event.preventDefault();
 
-    if (validateForm()) {
-      setFormStatus("Registration details are valid.");
+    setShowerr("");
+    setFormStatus("");
 
-      // Qui verrà successivamente chiamato
-      // il servizio di registrazione.
-      console.log("Registration data:", formData);
-    } else {
-      setFormStatus("Please correct the errors in the form.");
+    // Prima controlliamo il form
+    if (!validateForm()) {
+      setFormStatus(
+        "Please correct the errors in the form."
+      );
+      return;
+    }
+
+    try {
+      // Chiamata API al backend
+      const response = await fetch(
+        `${API_URL}/api/auth/register`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            password: formData.password,
+            phone: formData.phone,
+          }),
+        }
+      );
+
+      const json = await response.json();
+
+      // Registrazione avvenuta con successo
+      if (json.authtoken) {
+        sessionStorage.setItem(
+          "auth-token",
+          json.authtoken
+        );
+
+        sessionStorage.setItem(
+          "name",
+          formData.name
+        );
+
+        sessionStorage.setItem(
+          "phone",
+          formData.phone
+        );
+
+        sessionStorage.setItem(
+          "email",
+          formData.email
+        );
+
+        // Navigazione alla Home
+        navigate("/");
+
+        // Aggiorna la Navbar
+        window.location.reload();
+      } else {
+        // Errori restituiti dal backend
+        if (json.errors && json.errors.length > 0) {
+          setShowerr(
+            json.errors.map((error) => error.msg).join(" ")
+          );
+        } else {
+          setShowerr(
+            json.error || "Registration failed."
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Registration error:", error);
+
+      setShowerr(
+        "Unable to connect to the server."
+      );
     }
   };
 
-  // Reset del form
+  // Reset form
   const handleReset = () => {
     setFormData({
       name: "",
@@ -115,23 +197,32 @@ function SignUp() {
     });
 
     setErrors({});
+    setShowerr("");
     setFormStatus("");
   };
 
   return (
     <main className="container">
-    <h1 className="signup-title">Sign Up</h1>
+      <h1 className="signup-title">
+        Sign Up
+      </h1>
 
       <p className="signup-description">
         Already a member?{" "}
         <Link to="/login">Login</Link>
       </p>
 
-      <form onSubmit={handleSubmit} onReset={handleReset} noValidate>
-
+      <form
+        method="POST"
+        onSubmit={register}
+        onReset={handleReset}
+        noValidate
+      >
         {/* NAME */}
         <div className="form-group">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">
+            Name
+          </label>
 
           <input
             type="text"
@@ -153,7 +244,9 @@ function SignUp() {
 
         {/* PHONE */}
         <div className="form-group">
-          <label htmlFor="phone">Phone</label>
+          <label htmlFor="phone">
+            Phone
+          </label>
 
           <input
             type="tel"
@@ -176,7 +269,9 @@ function SignUp() {
 
         {/* EMAIL */}
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">
+            Email
+          </label>
 
           <input
             type="email"
@@ -198,7 +293,9 @@ function SignUp() {
 
         {/* PASSWORD */}
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">
+            Password
+          </label>
 
           <input
             type="password"
@@ -218,6 +315,13 @@ function SignUp() {
           )}
         </div>
 
+        {/* ERRORI BACKEND */}
+        {showerr && (
+          <div className="err">
+            {showerr}
+          </div>
+        )}
+
         <div className="btn-group">
           <button
             type="submit"
@@ -235,7 +339,6 @@ function SignUp() {
         </div>
 
         <p
-          id="form-status"
           className="form-status"
           role="status"
         >
