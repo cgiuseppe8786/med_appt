@@ -1,6 +1,6 @@
 import React from "react"; // Importing the necessary modules from React library
 
-import "./LandingPage.css"; // Importing the CSS styles for the Landing_Page component
+import "./Landing_Page.css"; // Importing the CSS styles for the Landing_Page component
 
 // Defining the Function component Landing_Page
 const Landing_Page = () => {

@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Importa il componente Navbar personalizzato
 import Navbar from './Components/Navbar/Navbar';
-import Landing_Page from './Components/Landing_Page/LandingPage'
+import Landing_Page from './Components/Landing_Page/Landing_Page'
 // Componente funzione per l'app principale
 function App() {
 

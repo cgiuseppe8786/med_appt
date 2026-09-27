@@ -12,7 +12,7 @@ function Navbar() {
     <div>
       <nav aria-label="Main navigation">
         <div className="nav__logo">
-          <a href="../Landing_Page/LandingPage.html">
+          <a href="../Landing_Page/Landing_Page.html">
             StayHealthy
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ function Navbar() {
           id="navigation-links"
         >
           <li className="link">
-            <a href="../Landing_Page/LandingPage.html">Home</a>
+            <a href="../Landing_Page/Landing_Page.html">Home</a>
           </li>
 
           <li className="link">
