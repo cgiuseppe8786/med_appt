@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import "./InstantConsultation.css";
-import FindDoctorSearchIC from "./FindDoctorSearchIC/FindDoctorSearch";
-import DoctorCardIC from "./DoctorCardIC/DoctorCardIC";
+import FindDoctorSearch from "./FindDoctorSearch/FindDoctorSearch";
+import DoctorCard from "./DoctorCard/DoctorCard";
 
 const InstantConsultation = () => {
   const [searchParams] = useSearchParams();
@@ -72,7 +72,7 @@ const InstantConsultation = () => {
           for your consultation.
         </p>
 
-        <FindDoctorSearchIC />
+        <FindDoctorSearch />
       </section>
 
       <section className="instant-consultation__results">
@@ -131,7 +131,7 @@ const InstantConsultation = () => {
             {filteredDoctors.length > 0 ? (
               <div className="doctor-results-grid">
                 {filteredDoctors.map((doctor, index) => (
-                  <DoctorCardIC
+                  <DoctorCard
                     {...doctor}
                     key={`${doctor.name}-${index}`}
                   />
