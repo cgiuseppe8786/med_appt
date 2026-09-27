@@ -1,0 +1,139 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #fff;
+    color: #222;
+    font-family: Arial, sans-serif;
+}
+
+/* Form centrato, con campi larghi al massimo 420 px */
+.container {
+    width: 100%;
+    max-width: 468px;
+    margin: 60px auto;
+    padding: 24px;
+}
+
+h1 {
+    margin: 0 0 12px;
+    text-align: center;
+    font-size: 32px;
+}
+
+.signup-description {
+    margin: 0 0 32px;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.signup-description a {
+    color: #0070d9;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.signup-description a:hover {
+    text-decoration: underline;
+}
+
+/* Campi */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #222;
+    font-family: inherit;
+    font-size: 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #2190ff;
+    box-shadow: 0 0 0 3px rgba(33, 144, 255, 0.15);
+}
+
+/* Pulsanti */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.btn {
+    min-width: 110px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    background-color: #0069d9;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn:focus-visible,
+.signup-description a:focus-visible {
+    outline: 3px solid #2190ff;
+    outline-offset: 3px;
+}
+
+.form-status {
+    margin: 16px 0 0;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.form-status:empty {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .container {
+        margin: 24px auto;
+        padding: 20px;
+    }
+}

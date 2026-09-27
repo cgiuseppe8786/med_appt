@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - StayHealthy</title>
+    <link rel="stylesheet" href="./Sign_Up.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Sign Up</h1>
+
+        <p class="signup-description">
+            Already a member?
+            <a href="../Login/Login.html">Login</a>
+        </p>
+
+        <form>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    class="form-control"
+                    placeholder="Enter your name"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input
+                    type="tel"
+                    name="phone"
+                    id="phone"
+                    class="form-control"
+                    placeholder="Enter your phone number"
+                    autocomplete="tel"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="new-password"
+                    required
+                >
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    Submit
+                </button>
+                <button type="reset" class="btn btn-danger">
+                    Reset
+                </button>
+            </div>
+
+            <p id="form-status" class="form-status" role="status"></p>
+        </form>
+    </main>
+
+    <script>
+        // Pagina dimostrativa: da collegare al servizio di registrazione.
+        const form = document.querySelector("form");
+        const status = document.getElementById("form-status");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            status.textContent =
+                "Demo only: registration is not connected yet.";
+        });
+
+        form.addEventListener("reset", function () {
+            status.textContent = "";
+        });
+    </script>
+</body>
+</html>

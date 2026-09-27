@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - StayHealthy</title>
+    <link rel="stylesheet" href="./Login.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Login</h1>
+
+        <p class="login-description">
+            Are you a new member?
+            <a href="../Sign_Up/Sign_Up.html">Sign Up Here</a>
+        </p>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="Enter your email"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
+                <button type="reset" class="btn btn-danger">
+                    Reset
+                </button>
+            </div>
+
+            <p class="forgot-password">Forgot Password?</p>
+
+            <p id="form-status" class="form-status" role="status"></p>
+        </form>
+    </main>
+
+    <script>
+        // Da collegare al servizio di autenticazione.
+        const form = document.getElementById("login-form");
+        const formStatus = document.getElementById("form-status");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            formStatus.textContent =
+                "Demo only: login is not connected yet.";
+        });
+
+        form.addEventListener("reset", function () {
+            formStatus.textContent = "";
+        });
+    </script>
+</body>
+</html>
