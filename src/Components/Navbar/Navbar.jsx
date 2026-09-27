@@ -1,50 +1,51 @@
 import { useState } from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen((prev) => !prev);
-  };
+    const handleClick = () => {
+        setIsOpen((prev) => !prev);
+    };
 
-  return (
-    <div>
-      <nav aria-label="Main navigation">
-        <div className="nav__logo">
-          <a href="../Landing_Page/Landing_Page.html">
-            StayHealthy
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="26"
-              height="26"
-              viewBox="0 0 1000 1000"
-              aria-hidden="true"
-            >
-              {/* Testa */}
-              <path
-                d="
+    return (
+        <div>
+            <nav aria-label="Main navigation">
+                <div className="nav__logo">
+                    <Link to="/">
+                        StayHealthy
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="26"
+                            height="26"
+                            viewBox="0 0 1000 1000"
+                            aria-hidden="true"
+                        >
+                            {/* Testa */}
+                            <path
+                                d="
                   M499.8,10
                   c91.7,0,166,74.3,166,166
                   s-74.3,166-166,166
                   s-166-74.3-166-166
                   S408.1,10,499.8,10Z
                 "
-              />
+                            />
 
-              {/* Colletto */}
-              <path
-                d="
+                            {/* Colletto */}
+                            <path
+                                d="
                   M499.8,522.8
                   c71.2,0,129.1-58.7,129.1-129.1
                   H370.6
                   C370.6,464.1,428.6,522.8,499.8,522.8Z
                 "
-              />
+                            />
 
-              {/* Busto con stetoscopio */}
-              <path
-                d="
+                            {/* Busto con stetoscopio */}
+                            <path
+                                d="
                   M693.2,395
                   c-0.7,94.9-70.3,173.7-160.8,188.9
                   v155.9
@@ -64,54 +65,53 @@ function Navbar() {
                   V670
                   C900,535,816.1,425,693.2,395Z
                 "
-              />
-            </svg>
-          </a>
+                            />
+                        </svg>
+                    </Link>
+                    <span>.</span>
+                </div>
 
-          <span>.</span>
+                <button
+                    className="nav__icon"
+                    type="button"
+                    aria-label={isOpen ? "Close menu" : "Open menu"}
+                    aria-controls="navigation-links"
+                    aria-expanded={isOpen}
+                    onClick={handleClick}
+                >
+                    <i
+                        className={`fa ${isOpen ? "fa-times" : "fa-bars"}`}
+                        aria-hidden="true"
+                    ></i>
+                </button>
+
+                <ul
+                    className={`nav__links ${isOpen ? "active" : ""}`}
+                    id="navigation-links"
+                >
+                    <li className="link">
+                        <Link to="/">Home</Link>
+                    </li>
+
+                    <li className="link">
+                        <Link to="/appointments">Appointments</Link>
+                    </li>
+
+                    <li className="link">
+                        <Link className="btn1" to="/signup">
+                            Sign Up
+                        </Link>
+                    </li>
+
+                    <li className="link">
+                        <Link className="btn1" to="/login">
+                            Login
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
         </div>
-
-        <button
-          className="nav__icon"
-          type="button"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-controls="navigation-links"
-          aria-expanded={isOpen}
-          onClick={handleClick}
-        >
-          <i
-            className={`fa ${isOpen ? "fa-times" : "fa-bars"}`}
-            aria-hidden="true"
-          ></i>
-        </button>
-
-        <ul
-          className={`nav__links ${isOpen ? "active" : ""}`}
-          id="navigation-links"
-        >
-          <li className="link">
-            <a href="../Landing_Page/Landing_Page.html">Home</a>
-          </li>
-
-          <li className="link">
-            <a href="#">Appointments</a>
-          </li>
-
-          <li className="link">
-            <a className="btn1" href="../Sign_Up/Sign_Up.html">
-              Sign Up
-            </a>
-          </li>
-
-          <li className="link">
-            <a className="btn1" href="../Login/Login.html">
-              Login
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
+    );
 }
 
 export default Navbar;

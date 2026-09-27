@@ -138,6 +138,12 @@ h1 {
     display: none;
 }
 
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
 /* Mobile */
 @media (max-width: 480px) {
     .container {
