@@ -1,35 +1,47 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 import "./Login.css";
 
 function Login() {
+  // Dati del form
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  // Errori di validazione frontend
   const [errors, setErrors] = useState({});
+
+  // Errori restituiti dal backend
+  const [showerr, setShowerr] = useState("");
+
+  // Messaggio generale del form
   const [formStatus, setFormStatus] = useState("");
 
-  // Gestisce la modifica dei campi
+  // Hook per la navigazione
+  const navigate = useNavigate();
+
+  // Gestione modifica campi
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
 
-    // Rimuove l'errore quando l'utente modifica il campo
-    setErrors({
-      ...errors,
+    // Rimuove l'errore relativo al campo modificato
+    setErrors((prev) => ({
+      ...prev,
       [name]: "",
-    });
+    }));
 
+    setShowerr("");
     setFormStatus("");
   };
 
-  // Valida i campi del form
+  // Validazione frontend
   const validateForm = () => {
     const newErrors = {};
 
@@ -37,14 +49,18 @@ function Login() {
     if (!formData.email.trim()) {
       newErrors.email = "Email is required.";
     } else if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        formData.email.trim()
+      )
     ) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email =
+        "Please enter a valid email address.";
     }
 
     // Validazione password
     if (!formData.password) {
-      newErrors.password = "Password is required.";
+      newErrors.password =
+        "Password is required.";
     }
 
     setErrors(newErrors);
@@ -52,18 +68,81 @@ function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Gestisce il login
-  const handleSubmit = (event) => {
+  // Gestione Login
+  const login = async (event) => {
     event.preventDefault();
 
-    if (validateForm()) {
-      setFormStatus("Login details are valid.");
+    setShowerr("");
+    setFormStatus("");
 
-      // Qui verrà successivamente chiamato
-      // il servizio di autenticazione.
-      console.log("Login data:", formData);
-    } else {
-      setFormStatus("Please correct the errors in the form.");
+    // Controlla prima i dati inseriti
+    if (!validateForm()) {
+      setFormStatus(
+        "Please correct the errors in the form."
+      );
+      return;
+    }
+
+    try {
+      // Chiamata API al backend
+      const response = await fetch(
+        `${API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            email: formData.email.trim(),
+            password: formData.password,
+          }),
+        }
+      );
+
+      // Prova a leggere la risposta JSON
+      const json = await response.json();
+
+      // LOGIN CORRETTO
+      if (response.ok && json.authtoken) {
+        // Salva il token JWT
+        sessionStorage.setItem(
+          "auth-token",
+          json.authtoken
+        );
+
+        // Salva l'email utilizzata per il login
+        sessionStorage.setItem(
+          "email",
+          formData.email.trim()
+        );
+
+        // Naviga alla Home
+        navigate("/");
+
+        // Ricarica l'app per aggiornare la Navbar
+        window.location.reload();
+      } else {
+        // Errori di validazione restituiti dal backend
+        if (json.errors && json.errors.length > 0) {
+          setShowerr(
+            json.errors
+              .map((error) => error.msg)
+              .join(" ")
+          );
+        } else {
+          setShowerr(
+            json.error ||
+              "Invalid email or password."
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setShowerr(
+        "Unable to connect to the server."
+      );
     }
   };
 
@@ -75,27 +154,34 @@ function Login() {
     });
 
     setErrors({});
+    setShowerr("");
     setFormStatus("");
   };
 
   return (
     <main className="container">
-      <h1 className="login-title">Login</h1>
+      <h1 className="login-title">
+        Login
+      </h1>
 
       <p className="login-description">
         Are you a new member?{" "}
-        <Link to="/signup">Sign Up Here</Link>
+        <Link to="/signup">
+          Sign Up Here
+        </Link>
       </p>
 
       <form
-        id="login-form"
-        onSubmit={handleSubmit}
+        method="POST"
+        onSubmit={login}
         onReset={handleReset}
         noValidate
       >
         {/* EMAIL */}
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">
+            Email
+          </label>
 
           <input
             type="email"
@@ -117,7 +203,9 @@ function Login() {
 
         {/* PASSWORD */}
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">
+            Password
+          </label>
 
           <input
             type="password"
@@ -137,6 +225,17 @@ function Login() {
           )}
         </div>
 
+        {/* ERRORI BACKEND */}
+        {showerr && (
+          <div
+            className="err"
+            style={{ color: "red" }}
+          >
+            {showerr}
+          </div>
+        )}
+
+        {/* PULSANTI */}
         <div className="btn-group">
           <button
             type="submit"
@@ -158,7 +257,6 @@ function Login() {
         </p>
 
         <p
-          id="form-status"
           className="form-status"
           role="status"
         >

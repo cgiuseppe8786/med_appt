@@ -1,40 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
   const navigate = useNavigate();
 
-  // Verifica se l'utente è autenticato
-  const isLoggedIn = !!sessionStorage.getItem("auth-token");
+  // Controlla se l'utente è autenticato
+  // ed estrae lo username dall'indirizzo email
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("auth-token");
+    const storedEmail = sessionStorage.getItem("email");
+
+    if (authToken && storedEmail) {
+      setIsLoggedIn(true);
+
+      // Estrae la parte dell'email prima della @
+      const extractedUsername = storedEmail.split("@")[0];
+
+      setUsername(extractedUsername);
+    } else {
+      setIsLoggedIn(false);
+      setUsername("");
+    }
+  }, []);
 
   // Apertura/chiusura menu mobile
   const handleClick = () => {
     setIsOpen((prev) => !prev);
   };
 
-  // Chiude il menu dopo aver selezionato una voce
+  // Chiude il menu mobile
   const closeMenu = () => {
     setIsOpen(false);
   };
 
-  // Logout dell'utente
+  // Logout
   const handleLogout = () => {
-    // Rimuove i dati dell'utente dalla sessione
     sessionStorage.removeItem("auth-token");
     sessionStorage.removeItem("name");
-    sessionStorage.removeItem("phone");
     sessionStorage.removeItem("email");
+    sessionStorage.removeItem("phone");
 
-    // Chiude il menu mobile
+    localStorage.removeItem("doctorData");
+
+    // Elimina eventuali dati delle recensioni
+    const keysToRemove = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+
+      if (key && key.startsWith("reviewFormData_")) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
+
+    setIsLoggedIn(false);
+    setUsername("");
     setIsOpen(false);
 
-    // Torna alla pagina di login
-    navigate("/login");
+    navigate("/");
 
-    // Aggiorna la pagina per aggiornare la Navbar
     window.location.reload();
   };
 
@@ -74,7 +107,7 @@ function Navbar() {
               "
             />
 
-            {/* Busto con stetoscopio */}
+            {/* Busto */}
             <path
               d="
                 M693.2,395
@@ -120,32 +153,46 @@ function Navbar() {
         ></i>
       </button>
 
-      {/* LINK NAVIGAZIONE */}
+      {/* NAVIGATION */}
       <ul
         className={`nav__links ${isOpen ? "active" : ""}`}
         id="navigation-links"
       >
         <li className="link">
-          <Link
-            to="/"
-            onClick={closeMenu}
-          >
+          <Link to="/" onClick={closeMenu}>
             Home
           </Link>
         </li>
 
         <li className="link">
           <Link
-            to="/appointments"
+            to="/search/doctors"
             onClick={closeMenu}
           >
             Appointments
           </Link>
         </li>
 
-        {/* UTENTE NON AUTENTICATO */}
-        {!isLoggedIn && (
+        {/* UTENTE AUTENTICATO */}
+        {isLoggedIn ? (
           <>
+            <li className="link welcome-user">
+              Welcome, {username}
+            </li>
+
+            <li className="link">
+              <button
+                type="button"
+                className="btn2"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            {/* UTENTE NON AUTENTICATO */}
             <li className="link">
               <Link
                 className="btn1"
@@ -166,19 +213,6 @@ function Navbar() {
               </Link>
             </li>
           </>
-        )}
-
-        {/* UTENTE AUTENTICATO */}
-        {isLoggedIn && (
-          <li className="link">
-            <button
-              type="button"
-              className="btn1"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </li>
         )}
       </ul>
     </nav>
