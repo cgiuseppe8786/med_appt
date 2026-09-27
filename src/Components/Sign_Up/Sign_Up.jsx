@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../../config";
 import "./Sign_Up.css";
@@ -17,6 +17,14 @@ function SignUp() {
 
   const navigate = useNavigate();
 
+  // Se l'utente è già autenticato,
+  // viene reindirizzato automaticamente alla Home
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   // Gestione modifica campi
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +39,7 @@ function SignUp() {
       [name]: value,
     }));
 
+    // Rimuove l'errore del campo modificato
     setErrors((prev) => ({
       ...prev,
       [name]: "",
@@ -109,7 +118,7 @@ function SignUp() {
     setShowerr("");
     setFormStatus("");
 
-    // Prima controlliamo il form
+    // Validazione frontend
     if (!validateForm()) {
       setFormStatus(
         "Please correct the errors in the form."
@@ -139,16 +148,18 @@ function SignUp() {
 
       const json = await response.json();
 
-      // Registrazione avvenuta con successo
-      if (json.authtoken) {
+      // REGISTRAZIONE CORRETTA
+      if (response.ok && json.authtoken) {
+        // Salva il token JWT
         sessionStorage.setItem(
           "auth-token",
           json.authtoken
         );
 
+        // Salva i dati dell'utente
         sessionStorage.setItem(
           "name",
-          formData.name
+          formData.name.trim()
         );
 
         sessionStorage.setItem(
@@ -158,19 +169,23 @@ function SignUp() {
 
         sessionStorage.setItem(
           "email",
-          formData.email
+          formData.email.trim()
         );
 
-        // Navigazione alla Home
+        // L'utente è ora autenticato.
+        // Lo portiamo direttamente alla Home.
         navigate("/");
 
-        // Aggiorna la Navbar
+        // Ricarica l'applicazione per aggiornare
+        // immediatamente la Navbar
         window.location.reload();
       } else {
         // Errori restituiti dal backend
         if (json.errors && json.errors.length > 0) {
           setShowerr(
-            json.errors.map((error) => error.msg).join(" ")
+            json.errors
+              .map((error) => error.msg)
+              .join(" ")
           );
         } else {
           setShowerr(
@@ -209,7 +224,9 @@ function SignUp() {
 
       <p className="signup-description">
         Already a member?{" "}
-        <Link to="/login">Login</Link>
+        <Link to="/login">
+          Login
+        </Link>
       </p>
 
       <form
@@ -317,11 +334,15 @@ function SignUp() {
 
         {/* ERRORI BACKEND */}
         {showerr && (
-          <div className="err">
+          <div
+            className="err"
+            style={{ color: "red" }}
+          >
             {showerr}
           </div>
         )}
 
+        {/* PULSANTI */}
         <div className="btn-group">
           <button
             type="submit"

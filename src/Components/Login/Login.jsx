@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../../../config";
 import "./Login.css";
@@ -21,6 +21,14 @@ function Login() {
 
   // Hook per la navigazione
   const navigate = useNavigate();
+
+  // Se l'utente è già autenticato,
+  // viene reindirizzato automaticamente alla Home
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   // Gestione modifica campi
   const handleChange = (event) => {
@@ -100,18 +108,18 @@ function Login() {
         }
       );
 
-      // Prova a leggere la risposta JSON
+      // Legge la risposta JSON del backend
       const json = await response.json();
 
       // LOGIN CORRETTO
       if (response.ok && json.authtoken) {
-        // Salva il token JWT
+        // Salva il token JWT nella sessione
         sessionStorage.setItem(
           "auth-token",
           json.authtoken
         );
 
-        // Salva l'email utilizzata per il login
+        // Salva l'email nella sessione
         sessionStorage.setItem(
           "email",
           formData.email.trim()
@@ -123,7 +131,7 @@ function Login() {
         // Ricarica l'app per aggiornare la Navbar
         window.location.reload();
       } else {
-        // Errori di validazione restituiti dal backend
+        // Gestione errori restituiti dal backend
         if (json.errors && json.errors.length > 0) {
           setShowerr(
             json.errors
@@ -225,7 +233,7 @@ function Login() {
           )}
         </div>
 
-        {/* ERRORI BACKEND */}
+        {/* ERRORI RESTITUITI DAL BACKEND */}
         {showerr && (
           <div
             className="err"
