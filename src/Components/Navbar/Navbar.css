@@ -214,6 +214,83 @@ nav {
     padding: 0;
 }
 
+/* USER PROFILE MENU */
+
+.user-menu {
+  position: relative;
+}
+
+.user-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 8px 10px;
+
+  background: transparent;
+  color: #20252b;
+
+  border: none;
+
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.user-menu-button i {
+  font-size: 10px;
+}
+
+.user-dropdown {
+  position: absolute;
+
+  top: calc(100% + 8px);
+  right: 0;
+
+  width: 160px;
+
+  background: #ffffff;
+
+  border: 1px solid #e2e6ea;
+  border-radius: 7px;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+
+  overflow: hidden;
+
+  z-index: 2000;
+}
+
+.user-dropdown-item {
+  width: 100%;
+
+  display: block;
+
+  padding: 12px 15px;
+
+  background: #ffffff;
+  color: #20252b;
+
+  border: none;
+
+  text-align: left;
+  text-decoration: none;
+
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: 13px;
+
+  box-sizing: border-box;
+}
+
+.user-dropdown-item:hover {
+  background: #f3f7fb;
+  color: #1689f8;
+}
+
 /* Mostra il menu mobile prima che i link restino senza spazio */
 @media (max-width: 900px) {
     .nav__icon {

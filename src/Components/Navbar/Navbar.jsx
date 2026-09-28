@@ -3,113 +3,97 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    // Controlla se l'utente è autenticato
-    // ed estrae lo username dall'indirizzo email
-    useEffect(() => {
-        const authToken = sessionStorage.getItem("auth-token");
-        const storedEmail = sessionStorage.getItem("email");
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("auth-token");
+    const storedEmail = sessionStorage.getItem("email");
+    const storedName = sessionStorage.getItem("name");
 
-        if (authToken && storedEmail) {
-            setIsLoggedIn(true);
+    if (authToken && storedEmail) {
+      setIsLoggedIn(true);
 
-            // Estrae la parte dell'email prima della @
-            const extractedUsername = storedEmail.split("@")[0];
+      const extractedUsername =
+        storedName || storedEmail.split("@")[0];
 
-            setUsername(extractedUsername);
-        } else {
-            setIsLoggedIn(false);
-            setUsername("");
-        }
-    }, []);
+      setUsername(extractedUsername);
+    } else {
+      setIsLoggedIn(false);
+      setUsername("");
+    }
+  }, []);
 
-    // Apertura/chiusura menu mobile
-    const handleClick = () => {
-        setIsOpen((prev) => !prev);
-    };
+  const handleClick = () => {
+    setIsOpen((prev) => !prev);
+  };
 
-    // Chiude il menu mobile
-    const closeMenu = () => {
-        setIsOpen(false);
-    };
+  const closeMenu = () => {
+    setIsOpen(false);
+    setIsProfileOpen(false);
+  };
 
-    // Logout
-    const handleLogout = () => {
-        sessionStorage.removeItem("auth-token");
-        sessionStorage.removeItem("name");
-        sessionStorage.removeItem("email");
-        sessionStorage.removeItem("phone");
+  const handleProfileMenu = () => {
+    setIsProfileOpen((prev) => !prev);
+  };
 
-        localStorage.removeItem("doctorData");
+  const handleLogout = () => {
+    sessionStorage.removeItem("auth-token");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("phone");
 
-        // Elimina eventuali dati delle recensioni
-        const keysToRemove = [];
+    localStorage.removeItem("doctorData");
 
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
+    setIsLoggedIn(false);
+    setUsername("");
+    setIsOpen(false);
+    setIsProfileOpen(false);
 
-            if (key && key.startsWith("reviewFormData_")) {
-                keysToRemove.push(key);
-            }
-        }
+    navigate("/");
+    window.location.reload();
+  };
 
-        keysToRemove.forEach((key) => {
-            localStorage.removeItem(key);
-        });
+  return (
+    <nav aria-label="Main navigation">
 
-        setIsLoggedIn(false);
-        setUsername("");
-        setIsOpen(false);
+      {/* LOGO */}
+      <div className="nav__logo">
+        <Link to="/" onClick={closeMenu}>
+          StayHealthy
 
-        navigate("/");
-
-        window.location.reload();
-    };
-
-    return (
-        <nav aria-label="Main navigation">
-
-            {/* LOGO */}
-            <div className="nav__logo">
-                <Link to="/" onClick={closeMenu}>
-                    StayHealthy
-
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="26"
-                        height="26"
-                        viewBox="0 0 1000 1000"
-                        aria-hidden="true"
-                    >
-                        {/* Testa */}
-                        <path
-                            d="
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="26"
+            height="26"
+            viewBox="0 0 1000 1000"
+            aria-hidden="true"
+          >
+            <path
+              d="
                 M499.8,10
                 c91.7,0,166,74.3,166,166
                 s-74.3,166-166,166
                 s-166-74.3-166-166
                 S408.1,10,499.8,10Z
               "
-                        />
+            />
 
-                        {/* Colletto */}
-                        <path
-                            d="
+            <path
+              d="
                 M499.8,522.8
                 c71.2,0,129.1-58.7,129.1-129.1
                 H370.6
                 C370.6,464.1,428.6,522.8,499.8,522.8Z
               "
-                        />
+            />
 
-                        {/* Busto */}
-                        <path
-                            d="
+            <path
+              d="
                 M693.2,395
                 c-0.7,94.9-70.3,173.7-160.8,188.9
                 v155.9
@@ -129,105 +113,140 @@ function Navbar() {
                 V670
                 C900,535,816.1,425,693.2,395Z
               "
-                        />
-                    </svg>
-                </Link>
+            />
+          </svg>
+        </Link>
 
-                <span>.</span>
-            </div>
+        <span>.</span>
+      </div>
 
-            {/* MENU MOBILE */}
-            <button
-                className="nav__icon"
+      {/* MOBILE MENU */}
+      <button
+        className="nav__icon"
+        type="button"
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-controls="navigation-links"
+        aria-expanded={isOpen}
+        onClick={handleClick}
+      >
+        <i
+          className={`fa ${
+            isOpen ? "fa-times" : "fa-bars"
+          }`}
+          aria-hidden="true"
+        />
+      </button>
+
+      {/* NAVIGATION */}
+      <ul
+        className={`nav__links ${isOpen ? "active" : ""}`}
+        id="navigation-links"
+      >
+        <li className="link">
+          <Link to="/" onClick={closeMenu}>
+            Home
+          </Link>
+        </li>
+
+        <li className="link">
+          <Link
+            to="/search/doctors"
+            onClick={closeMenu}
+          >
+            Appointments
+          </Link>
+        </li>
+
+        <li className="link">
+          <Link
+            to="/instant-consultation"
+            onClick={closeMenu}
+          >
+            Instant Consultation
+          </Link>
+        </li>
+
+        <li className="link">
+          <Link
+            to="/reviews"
+            onClick={closeMenu}
+          >
+            Reviews
+          </Link>
+        </li>
+
+        {isLoggedIn ? (
+          <>
+            {/* PROFILO */}
+            <li className="link user-menu">
+              <button
                 type="button"
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                aria-controls="navigation-links"
-                aria-expanded={isOpen}
-                onClick={handleClick}
-            >
+                className="user-menu-button"
+                onClick={handleProfileMenu}
+              >
+                Welcome, {username}
+
                 <i
-                    className={`fa ${isOpen ? "fa-times" : "fa-bars"
-                        }`}
-                    aria-hidden="true"
-                ></i>
-            </button>
+                  className={`fa ${
+                    isProfileOpen
+                      ? "fa-chevron-up"
+                      : "fa-chevron-down"
+                  }`}
+                  aria-hidden="true"
+                />
+              </button>
 
-            {/* NAVIGATION */}
-            <ul
-                className={`nav__links ${isOpen ? "active" : ""}`}
-                id="navigation-links"
-            >
-                <li className="link">
-                    <Link to="/" onClick={closeMenu}>
-                        Home
-                    </Link>
-                </li>
+              {isProfileOpen && (
+                <div className="user-dropdown">
+                  <Link
+                    to="/profile"
+                    className="user-dropdown-item"
+                    onClick={closeMenu}
+                  >
+                    Your Profile
+                  </Link>
+                </div>
+              )}
+            </li>
 
-                <li className="link">
-                    <Link
-                        to="/search/doctors"
-                        onClick={closeMenu}
-                    >
-                        Appointments
-                    </Link>
-                </li>
+            {/* LOGOUT FUORI DAL DROPDOWN */}
+            <li className="link">
+              <button
+                type="button"
+                className="btn2"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li className="link">
+              <Link
+                className="btn1"
+                to="/signup"
+                onClick={closeMenu}
+              >
+                Sign Up
+              </Link>
+            </li>
 
-                <li className="link">
-                    <Link
-                        to="/instant-consultation"
-                        onClick={closeMenu}
-                    >
-                        Instant Consultation
-                    </Link>
-                    <Link to="/reviews">
-                        Reviews
-                    </Link>
-                </li>
+            <li className="link">
+              <Link
+                className="btn1"
+                to="/login"
+                onClick={closeMenu}
+              >
+                Login
+              </Link>
+            </li>
+          </>
+        )}
+      </ul>
 
-                {/* UTENTE AUTENTICATO */}
-                {isLoggedIn ? (
-                    <>
-                        <li className="link welcome-user">
-                            Welcome, {username}
-                        </li>
-
-                        <li className="link">
-                            <button
-                                type="button"
-                                className="btn2"
-                                onClick={handleLogout}
-                            >
-                                Logout
-                            </button>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        {/* UTENTE NON AUTENTICATO */}
-                        <li className="link">
-                            <Link
-                                className="btn1"
-                                to="/signup"
-                                onClick={closeMenu}
-                            >
-                                Sign Up
-                            </Link>
-                        </li>
-
-                        <li className="link">
-                            <Link
-                                className="btn1"
-                                to="/login"
-                                onClick={closeMenu}
-                            >
-                                Login
-                            </Link>
-                        </li>
-                    </>
-                )}
-            </ul>
-        </nav>
-    );
+    </nav>
+  );
 }
 
 export default Navbar;
