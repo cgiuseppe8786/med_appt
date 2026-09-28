@@ -22,12 +22,57 @@ const DoctorCard = ({
       ...appointmentData,
     };
 
+    const doctorInfo = {
+      name,
+      speciality,
+      experience,
+      ratings,
+    };
+
     setAppointment(newAppointment);
+
+    // Salva i dati del medico
+    localStorage.setItem(
+      "doctorData",
+      JSON.stringify(doctorInfo)
+    );
+
+    // Salva i dati dell'appuntamento usando il nome
+    // del medico come chiave
+    localStorage.setItem(
+      name,
+      JSON.stringify(newAppointment)
+    );
+
+    // Notifica il componente Notification
+    window.dispatchEvent(
+      new Event("appointmentChanged")
+    );
   };
 
   // Cancellazione appuntamento
   const handleCancel = () => {
     setAppointment(null);
+
+    // Rimuove l'appuntamento salvato
+    localStorage.removeItem(name);
+
+    const storedDoctorData = JSON.parse(
+      localStorage.getItem("doctorData")
+    );
+
+    // Se il medico salvato è quello corrente,
+    // rimuove anche i suoi dati
+    if (storedDoctorData?.name === name) {
+      localStorage.removeItem("doctorData");
+    }
+
+    // Notifica il componente Notification
+    // che l'appuntamento è stato cancellato
+    window.dispatchEvent(
+      new Event("appointmentChanged")
+    );
+
     setShowModal(false);
   };
 
@@ -143,7 +188,7 @@ const DoctorCard = ({
 
             </div>
 
-            {/* FORM */}
+            {/* FORM / RIEPILOGO */}
             {!appointment ? (
               <AppointmentForm
                 doctorName={name}
@@ -151,7 +196,6 @@ const DoctorCard = ({
                 onSubmit={handleFormSubmit}
               />
             ) : (
-              /* RIEPILOGO APPUNTAMENTO */
               <div className="appointment-booked">
 
                 <h3>Appointment Booked!</h3>

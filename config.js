@@ -1,9 +1,11 @@
-export const API_URL =
-  window.location.hostname === "localhost"
-    ? "http://localhost:8181"
-    : "https://cgiuseppe878-8181.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai";
+const hostname = window.location.hostname;
 
-console.log(
-  "API_URL:",
-  API_URL
-);
+export const API_URL =
+  hostname === "localhost" || hostname === "127.0.0.1"
+    ? "http://localhost:8181"
+    : `${window.location.protocol}//${hostname.replace(
+        /-\d+(?=\.)/,
+        "-8181"
+      )}`;
+
+console.log("API_URL:", API_URL);

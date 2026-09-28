@@ -11,6 +11,7 @@ import Login from "./Components/Login/Login";
 import SignUp from "./Components/Sign_Up/Sign_Up";
 import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
 import BookingConsultation from "./Components/BookingConsultation/BookingConsultation";
+import Notification from "./Components/Notification/Notification";
 // Componente funzione per l'app principale
 function App() {
 
@@ -23,13 +24,15 @@ function App() {
                 <Navbar />
 
                 {/* Imposta le Routes per le diverse pagine */}
-                <Routes>
-                    <Route path="/" element={<Landing_Page />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/instant-consultation" element={<InstantConsultation />} />
-                    <Route path="/search/doctors" element={<BookingConsultation />} />
-                </Routes>
+                <Notification>
+                    <Routes>
+                        <Route path="/" element={<Landing_Page />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/instant-consultation" element={<InstantConsultation />} />
+                        <Route path="/search/doctors" element={<BookingConsultation />} />
+                    </Routes>
+                </Notification>
             </BrowserRouter>
         </div>
     );

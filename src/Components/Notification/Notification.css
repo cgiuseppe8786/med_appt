@@ -1,0 +1,84 @@
+.appointment-notification {
+    position: fixed;
+  
+    right: 25px;
+    bottom: 25px;
+  
+    width: 340px;
+  
+    display: flex;
+    align-items: flex-start;
+  
+    gap: 14px;
+  
+    padding: 18px;
+  
+    background: #ffffff;
+  
+    border: 1px solid #dce5ee;
+    border-left: 5px solid #1689f8;
+    border-radius: 12px;
+  
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.06);
+  
+    z-index: 9999;
+  
+    box-sizing: border-box;
+  }
+  
+  .appointment-notification__icon {
+    width: 42px;
+    height: 42px;
+  
+    flex-shrink: 0;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    background: #eaf4ff;
+    color: #1689f8;
+  
+    border-radius: 50%;
+  
+    font-size: 20px;
+  }
+  
+  .appointment-notification__content {
+    flex: 1;
+  }
+  
+  .appointment-notification__title {
+    margin: 0 0 10px;
+  
+    color: #20252b;
+  
+    font-size: 17px;
+    font-weight: 700;
+  }
+  
+  .appointment-notification__content p {
+    margin: 5px 0;
+  
+    color: #59636e;
+  
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .appointment-notification__content strong {
+    color: #20252b;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 600px) {
+    .appointment-notification {
+      right: 15px;
+      bottom: 15px;
+      left: 15px;
+  
+      width: auto;
+    }
+  }
