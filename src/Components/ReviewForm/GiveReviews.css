@@ -1,0 +1,30 @@
+.rating-selector {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .rating-star {
+    padding: 0;
+  
+    background: transparent;
+    color: #c5c5c5;
+  
+    border: none;
+  
+    cursor: pointer;
+  
+    font-size: 25px;
+  }
+  
+  .rating-star.selected {
+    color: #f5b301;
+  }
+  
+  .rating-star:hover {
+    color: #f5b301;
+  }
+  
+  .feedback-button:disabled {
+    background: #a5adb5;
+    cursor: not-allowed;
+  }

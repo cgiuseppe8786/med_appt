@@ -179,6 +179,9 @@ function Navbar() {
                     >
                         Instant Consultation
                     </Link>
+                    <Link to="/reviews">
+                        Reviews
+                    </Link>
                 </li>
 
                 {/* UTENTE AUTENTICATO */}
