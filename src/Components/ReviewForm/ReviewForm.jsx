@@ -3,29 +3,23 @@ import GiveReviews from "./GiveReviews";
 import "./ReviewForm.css";
 
 const ReviewForm = () => {
-  const doctorData = JSON.parse(
-    localStorage.getItem("doctorData")
-  );
+  const appointments = JSON.parse(
+    localStorage.getItem("appointments")
+  ) || [];
 
-  const reviewStorageKey = doctorData?.name
-    ? `review-${doctorData.name}`
-    : null;
+  const [reviewVersion, setReviewVersion] = useState(0);
 
-  const [reviewGiven, setReviewGiven] = useState(
-    reviewStorageKey
-      ? localStorage.getItem(reviewStorageKey) !== null
-      : false
-  );
+  const refreshReviews = () => {
+    setReviewVersion((value) => value + 1);
+  };
 
   return (
     <div className="reviews-page">
-
       <div className="reviews-container">
 
         <h1>Reviews</h1>
 
         <div className="reviews-table-wrapper">
-
           <table className="reviews-table">
 
             <thead>
@@ -39,56 +33,55 @@ const ReviewForm = () => {
             </thead>
 
             <tbody>
+              {appointments.length > 0 ? (
+                appointments.map((appointment, index) => {
+                  const reviewKey =
+                    `review-${appointment.id}`;
 
-              {doctorData ? (
-                <tr>
+                  const reviewGiven =
+                    localStorage.getItem(reviewKey) !== null;
 
-                  <td>1</td>
+                  return (
+                    <tr key={`${appointment.id}-${reviewVersion}`}>
+                      <td>{index + 1}</td>
 
-                  <td>
-                    {doctorData.name}
-                  </td>
+                      <td>
+                        {appointment.doctorName}
+                      </td>
 
-                  <td>
-                    {doctorData.speciality}
-                  </td>
+                      <td>
+                        {appointment.doctorSpeciality}
+                      </td>
 
-                  <td>
-                    <GiveReviews
-                      doctorName={doctorData.name}
-                      doctorSpeciality={
-                        doctorData.speciality
-                      }
-                      onReviewSubmitted={() =>
-                        setReviewGiven(true)
-                      }
-                    />
-                  </td>
+                      <td>
+                        <GiveReviews
+                          appointment={appointment}
+                          onReviewSubmitted={refreshReviews}
+                        />
+                      </td>
 
-                  <td>
-                    {reviewGiven ? "Yes" : "No"}
-                  </td>
-
-                </tr>
+                      <td>
+                        {reviewGiven ? "Yes" : "No"}
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td
                     colSpan="5"
                     className="no-reviews"
                   >
-                    No consultation available for review.
+                    No consultations available for review.
                   </td>
                 </tr>
               )}
-
             </tbody>
 
           </table>
-
         </div>
 
       </div>
-
     </div>
   );
 };

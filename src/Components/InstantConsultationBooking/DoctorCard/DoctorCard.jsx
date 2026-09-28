@@ -15,13 +15,39 @@ const DoctorCard = ({
   const [showModal, setShowModal] = useState(false);
   const [appointment, setAppointment] = useState(null);
 
-  // Prenotazione appuntamento
+  // PRENOTAZIONE APPUNTAMENTO
   const handleFormSubmit = (appointmentData) => {
     const newAppointment = {
       id: uuidv4(),
+
+      doctorName: name,
+      doctorSpeciality: speciality,
+      doctorExperience: experience,
+      doctorRatings: ratings,
+
       ...appointmentData,
     };
 
+    setAppointment(newAppointment);
+
+    // Recupera tutti gli appuntamenti già presenti
+    const storedAppointments = JSON.parse(
+      localStorage.getItem("appointments")
+    ) || [];
+
+    // Aggiunge il nuovo appuntamento
+    const updatedAppointments = [
+      ...storedAppointments,
+      newAppointment,
+    ];
+
+    // Salva la lista completa
+    localStorage.setItem(
+      "appointments",
+      JSON.stringify(updatedAppointments)
+    );
+
+    // Manteniamo doctorData per la Notification
     const doctorInfo = {
       name,
       speciality,
@@ -29,51 +55,60 @@ const DoctorCard = ({
       ratings,
     };
 
-    setAppointment(newAppointment);
-
-    // Salva i dati del medico
     localStorage.setItem(
       "doctorData",
       JSON.stringify(doctorInfo)
     );
 
-    // Salva i dati dell'appuntamento usando il nome
-    // del medico come chiave
+    // Manteniamo anche questo dato per la Notification attuale
     localStorage.setItem(
       name,
       JSON.stringify(newAppointment)
     );
 
-    // Notifica il componente Notification
+    // Avvisa Notification
     window.dispatchEvent(
       new Event("appointmentChanged")
     );
   };
 
-  // Cancellazione appuntamento
+  // CANCELLAZIONE APPUNTAMENTO
   const handleCancel = () => {
-    setAppointment(null);
+    if (appointment) {
+      const storedAppointments = JSON.parse(
+        localStorage.getItem("appointments")
+      ) || [];
 
-    // Rimuove l'appuntamento salvato
-    localStorage.removeItem(name);
+      // Rimuove soltanto l'appuntamento selezionato
+      const updatedAppointments =
+        storedAppointments.filter(
+          (item) => item.id !== appointment.id
+        );
 
-    const storedDoctorData = JSON.parse(
-      localStorage.getItem("doctorData")
-    );
+      localStorage.setItem(
+        "appointments",
+        JSON.stringify(updatedAppointments)
+      );
 
-    // Se il medico salvato è quello corrente,
-    // rimuove anche i suoi dati
-    if (storedDoctorData?.name === name) {
-      localStorage.removeItem("doctorData");
+      // Rimuove il dato usato dalla Notification
+      localStorage.removeItem(name);
+
+      const storedDoctorData = JSON.parse(
+        localStorage.getItem("doctorData")
+      );
+
+      if (storedDoctorData?.name === name) {
+        localStorage.removeItem("doctorData");
+      }
     }
 
-    // Notifica il componente Notification
-    // che l'appuntamento è stato cancellato
+    setAppointment(null);
+    setShowModal(false);
+
+    // Avvisa Notification della cancellazione
     window.dispatchEvent(
       new Event("appointmentChanged")
     );
-
-    setShowModal(false);
   };
 
   return (
@@ -158,7 +193,7 @@ const DoctorCard = ({
               ×
             </button>
 
-            {/* DOTTORE */}
+            {/* DATI DOTTORE */}
             <div className="appointment-doctor">
 
               <div className="appointment-doctor-icon">
