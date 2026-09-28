@@ -3,97 +3,97 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState("");
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const authToken = sessionStorage.getItem("auth-token");
-    const storedEmail = sessionStorage.getItem("email");
-    const storedName = sessionStorage.getItem("name");
+    useEffect(() => {
+        const authToken = sessionStorage.getItem("auth-token");
+        const storedEmail = sessionStorage.getItem("email");
+        const storedName = sessionStorage.getItem("name");
 
-    if (authToken && storedEmail) {
-      setIsLoggedIn(true);
+        if (authToken && storedEmail) {
+            setIsLoggedIn(true);
 
-      const extractedUsername =
-        storedName || storedEmail.split("@")[0];
+            const extractedUsername =
+                storedName || storedEmail.split("@")[0];
 
-      setUsername(extractedUsername);
-    } else {
-      setIsLoggedIn(false);
-      setUsername("");
-    }
-  }, []);
+            setUsername(extractedUsername);
+        } else {
+            setIsLoggedIn(false);
+            setUsername("");
+        }
+    }, []);
 
-  const handleClick = () => {
-    setIsOpen((prev) => !prev);
-  };
+    const handleClick = () => {
+        setIsOpen((prev) => !prev);
+    };
 
-  const closeMenu = () => {
-    setIsOpen(false);
-    setIsProfileOpen(false);
-  };
+    const closeMenu = () => {
+        setIsOpen(false);
+        setIsProfileOpen(false);
+    };
 
-  const handleProfileMenu = () => {
-    setIsProfileOpen((prev) => !prev);
-  };
+    const handleProfileMenu = () => {
+        setIsProfileOpen((prev) => !prev);
+    };
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("auth-token");
-    sessionStorage.removeItem("name");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("phone");
+    const handleLogout = () => {
+        sessionStorage.removeItem("auth-token");
+        sessionStorage.removeItem("name");
+        sessionStorage.removeItem("email");
+        sessionStorage.removeItem("phone");
 
-    localStorage.removeItem("doctorData");
+        localStorage.removeItem("doctorData");
 
-    setIsLoggedIn(false);
-    setUsername("");
-    setIsOpen(false);
-    setIsProfileOpen(false);
+        setIsLoggedIn(false);
+        setUsername("");
+        setIsOpen(false);
+        setIsProfileOpen(false);
 
-    navigate("/");
-    window.location.reload();
-  };
+        navigate("/");
+        window.location.reload();
+    };
 
-  return (
-    <nav aria-label="Main navigation">
+    return (
+        <nav aria-label="Main navigation">
 
-      {/* LOGO */}
-      <div className="nav__logo">
-        <Link to="/" onClick={closeMenu}>
-          StayHealthy
+            {/* LOGO */}
+            <div className="nav__logo">
+                <Link to="/" onClick={closeMenu}>
+                    StayHealthy
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="26"
-            height="26"
-            viewBox="0 0 1000 1000"
-            aria-hidden="true"
-          >
-            <path
-              d="
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="26"
+                        height="26"
+                        viewBox="0 0 1000 1000"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="
                 M499.8,10
                 c91.7,0,166,74.3,166,166
                 s-74.3,166-166,166
                 s-166-74.3-166-166
                 S408.1,10,499.8,10Z
               "
-            />
+                        />
 
-            <path
-              d="
+                        <path
+                            d="
                 M499.8,522.8
                 c71.2,0,129.1-58.7,129.1-129.1
                 H370.6
                 C370.6,464.1,428.6,522.8,499.8,522.8Z
               "
-            />
+                        />
 
-            <path
-              d="
+                        <path
+                            d="
                 M693.2,395
                 c-0.7,94.9-70.3,173.7-160.8,188.9
                 v155.9
@@ -113,140 +113,145 @@ function Navbar() {
                 V670
                 C900,535,816.1,425,693.2,395Z
               "
-            />
-          </svg>
-        </Link>
+                        />
+                    </svg>
+                </Link>
 
-        <span>.</span>
-      </div>
+                <span>.</span>
+            </div>
 
-      {/* MOBILE MENU */}
-      <button
-        className="nav__icon"
-        type="button"
-        aria-label={isOpen ? "Close menu" : "Open menu"}
-        aria-controls="navigation-links"
-        aria-expanded={isOpen}
-        onClick={handleClick}
-      >
-        <i
-          className={`fa ${
-            isOpen ? "fa-times" : "fa-bars"
-          }`}
-          aria-hidden="true"
-        />
-      </button>
-
-      {/* NAVIGATION */}
-      <ul
-        className={`nav__links ${isOpen ? "active" : ""}`}
-        id="navigation-links"
-      >
-        <li className="link">
-          <Link to="/" onClick={closeMenu}>
-            Home
-          </Link>
-        </li>
-
-        <li className="link">
-          <Link
-            to="/search/doctors"
-            onClick={closeMenu}
-          >
-            Appointments
-          </Link>
-        </li>
-
-        <li className="link">
-          <Link
-            to="/instant-consultation"
-            onClick={closeMenu}
-          >
-            Instant Consultation
-          </Link>
-        </li>
-
-        <li className="link">
-          <Link
-            to="/reviews"
-            onClick={closeMenu}
-          >
-            Reviews
-          </Link>
-        </li>
-
-        {isLoggedIn ? (
-          <>
-            {/* PROFILO */}
-            <li className="link user-menu">
-              <button
+            {/* MOBILE MENU */}
+            <button
+                className="nav__icon"
                 type="button"
-                className="user-menu-button"
-                onClick={handleProfileMenu}
-              >
-                Welcome, {username}
-
+                aria-label={isOpen ? "Close menu" : "Open menu"}
+                aria-controls="navigation-links"
+                aria-expanded={isOpen}
+                onClick={handleClick}
+            >
                 <i
-                  className={`fa ${
-                    isProfileOpen
-                      ? "fa-chevron-up"
-                      : "fa-chevron-down"
-                  }`}
-                  aria-hidden="true"
+                    className={`fa ${isOpen ? "fa-times" : "fa-bars"
+                        }`}
+                    aria-hidden="true"
                 />
-              </button>
+            </button>
 
-              {isProfileOpen && (
-                <div className="user-dropdown">
-                  <Link
-                    to="/profile"
-                    className="user-dropdown-item"
-                    onClick={closeMenu}
-                  >
-                    Your Profile
-                  </Link>
-                </div>
-              )}
-            </li>
+            {/* NAVIGATION */}
+            <ul
+                className={`nav__links ${isOpen ? "active" : ""}`}
+                id="navigation-links"
+            >
+                <li className="link">
+                    <Link to="/" onClick={closeMenu}>
+                        Home
+                    </Link>
+                </li>
 
-            {/* LOGOUT FUORI DAL DROPDOWN */}
-            <li className="link">
-              <button
-                type="button"
-                className="btn2"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li className="link">
-              <Link
-                className="btn1"
-                to="/signup"
-                onClick={closeMenu}
-              >
-                Sign Up
-              </Link>
-            </li>
+                <li className="link">
+                    <Link
+                        to="/search/doctors"
+                        onClick={closeMenu}
+                    >
+                        Appointments
+                    </Link>
+                </li>
 
-            <li className="link">
-              <Link
-                className="btn1"
-                to="/login"
-                onClick={closeMenu}
-              >
-                Login
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
+                <li className="link">
+                    <Link
+                        to="/instant-consultation"
+                        onClick={closeMenu}
+                    >
+                        Instant Consultation
+                    </Link>
+                </li>
 
-    </nav>
-  );
+                <li className="link">
+                    <Link
+                        to="/reviews"
+                        onClick={closeMenu}
+                    >
+                        Reviews
+                    </Link>
+                </li>
+
+                {isLoggedIn ? (
+                    <>
+                        {/* PROFILO */}
+                        <li className="link user-menu">
+                            <button
+                                type="button"
+                                className="user-menu-button"
+                                onClick={handleProfileMenu}
+                            >
+                                Welcome, {username}
+
+                                <i
+                                    className={`fa ${isProfileOpen
+                                            ? "fa-chevron-up"
+                                            : "fa-chevron-down"
+                                        }`}
+                                    aria-hidden="true"
+                                />
+                            </button>
+
+                            {isProfileOpen && (
+                                <div className="user-dropdown">
+                                    <Link
+                                        to="/profile"
+                                        className="user-dropdown-item"
+                                        onClick={closeMenu}
+                                    >
+                                        Your Profile
+                                    </Link>
+                                    <Link
+                                        to="/reports"
+                                        className="user-dropdown-item"
+                                        onClick={closeMenu}
+                                    >
+                                        Your Reports
+                                    </Link>
+                                </div>
+                            )}
+                        </li>
+
+                        {/* LOGOUT FUORI DAL DROPDOWN */}
+                        <li className="link">
+                            <button
+                                type="button"
+                                className="btn2"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </li>
+                    </>
+                ) : (
+                    <>
+                        <li className="link">
+                            <Link
+                                className="btn1"
+                                to="/signup"
+                                onClick={closeMenu}
+                            >
+                                Sign Up
+                            </Link>
+                        </li>
+
+                        <li className="link">
+                            <Link
+                                className="btn1"
+                                to="/login"
+                                onClick={closeMenu}
+                            >
+                                Login
+                            </Link>
+                        </li>
+                    </>
+                )}
+            </ul>
+
+        </nav>
+    );
 }
 
 export default Navbar;

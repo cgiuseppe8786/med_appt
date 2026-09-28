@@ -1,0 +1,138 @@
+.reports-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 110px 30px 60px;
+
+  background: #f7f9fc;
+
+  box-sizing: border-box;
+}
+  
+  .reports-container {
+    width: 100%;
+    max-width: 1100px;
+  
+    margin: 0 auto;
+    padding: 30px;
+  
+    background: #ffffff;
+  
+    border: 1px solid #e1e6eb;
+    border-radius: 14px;
+  
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
+  
+    box-sizing: border-box;
+  }
+  
+  .reports-header {
+    margin-bottom: 28px;
+  }
+  
+  .reports-header h1 {
+    margin: 0 0 7px;
+  
+    color: #20252b;
+  
+    font-size: 28px;
+  }
+  
+  .reports-header p {
+    margin: 0;
+  
+    color: #737d87;
+  
+    font-size: 14px;
+  }
+  
+  .reports-table-wrapper {
+    width: 100%;
+  
+    overflow-x: auto;
+  }
+  
+  .reports-table {
+    width: 100%;
+  
+    border-collapse: collapse;
+  }
+  
+  .reports-table th {
+    padding: 13px 15px;
+  
+    background: #f2f4f6;
+    color: #20252b;
+  
+    text-align: left;
+  
+    font-size: 13px;
+    font-weight: 700;
+  
+    border-bottom: 1px solid #dfe4e8;
+  }
+  
+  .reports-table td {
+    padding: 16px 15px;
+  
+    color: #59636e;
+  
+    font-size: 14px;
+  
+    border-bottom: 1px solid #eceff2;
+  }
+  
+  .report-view-button,
+  .report-download-button {
+    display: inline-block;
+  
+    padding: 8px 14px;
+  
+    background: #1689f8;
+    color: #ffffff;
+  
+    border-radius: 5px;
+  
+    text-decoration: none;
+  
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .report-view-button:hover,
+  .report-download-button:hover {
+    background: #0878e5;
+  }
+  
+  .report-download-button {
+    background: #28a745;
+  }
+  
+  .report-download-button:hover {
+    background: #218838;
+  }
+  
+  .reports-empty {
+    padding: 40px;
+  
+    color: #737d87;
+  
+    text-align: center;
+  }
+  
+@media (max-width: 600px) {
+  .reports-page {
+    padding: 90px 15px 40px;
+  }
+
+  .reports-container {
+    padding: 20px;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    padding: 10px;
+
+    font-size: 12px;
+  }
+}
