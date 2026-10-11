@@ -5,7 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build",
+        "start": "vite",
+        "build": "vite build && rm -rf server/build && mv dist server/build",
         "lint": "eslint .",
         "preview": "vite build && vite preview --host"
     },
