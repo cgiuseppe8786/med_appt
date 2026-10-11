@@ -1,0 +1,3 @@
+$ curl -X POST http://localhost:8181/api/auth/register -H "Content-Type: application/json" -d '{"name":"John Smith","email":"john.smith@stayhealthy.com","password":"Password123!","phone":"9876543210"}'
+
+{"authtoken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNmFjYjRjZjMwODc5OWI5YmMyY2QzYmM2In0sImlhdCI6MTc5MTcwODQwM30.zsDYXiF5Jdp0Y2nELcDaHOdmPtfYIuevF2T69uv0HfI"}
