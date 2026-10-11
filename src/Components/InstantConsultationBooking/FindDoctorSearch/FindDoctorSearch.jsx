@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "./FindDoctorSearch.css";
 
@@ -18,6 +18,14 @@ const FindDoctorSearch = () => {
   const [showResults, setShowResults] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Instant Consultation mostra i risultati nella propria pagina,
+  // tutte le altre ricerche portano alla pagina Appointments
+  const searchPath =
+    location.pathname === "/instant-consultation"
+      ? "/instant-consultation"
+      : "/search/doctors";
 
   const filteredSpecialities = specialities.filter((speciality) =>
     speciality
@@ -30,7 +38,7 @@ const FindDoctorSearch = () => {
     setShowResults(false);
 
     navigate(
-      `/search/doctors?speciality=${encodeURIComponent(
+      `${searchPath}?speciality=${encodeURIComponent(
         speciality
       )}`
     );
